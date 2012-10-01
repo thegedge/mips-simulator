@@ -1,0 +1,24 @@
+;------------------------------------------------
+; Same as test1.txt, except using mov.
+;------------------------------------------------
+
+.ORIGIN 0x0500
+
+.DATA __d2 {1, 6, -40, 5, 3240} ; sum = 3212
+
+
+	la    $30, LOOP		; 
+	la    $1, __d2		; start = __d2
+	mov   $2, $1		; end = start
+	addi  $2, 10		; end = start + 10 (+5 words)
+	
+LOOP:
+	load  $3, $1		; val = mem[start]
+	add   $10, $3 		; sum = sum + val
+	addi  $1, 2			; start = start + 2 (+1 word)
+	mov   $4, $2		; $4 = end
+	sub   $4, $1		; $4 = $4 - start
+	bz    $4, LEND		; if($4 = start) goto LEND
+	jr    $30			; goto LOOP
+
+LEND:

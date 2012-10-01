@@ -1,0 +1,24 @@
+;------------------------------------------------
+; A program that doubles values in an array!
+;   Pretty cool eh?
+;------------------------------------------------
+
+.ORIGIN 0x0500
+
+.DATA __d2 {1, 2, 3, 4, 5, 6}
+
+
+	la    $30, LOOP		; 
+	la    $1, __d2		; start = __d2
+LOOP:
+	la    $2, __d2		; end = __d2
+	addi  $2, 12		; end = end + 12 (+6 words)
+	load  $3, $1		; val = mem[start]
+	add   $3, $3 		; val = val * 2
+	store $3, $1		; mem[start] = val
+	addi  $1, 2			; start = start + 2 (+1 word)
+	sub   $2, $1		; end = end - start
+	bz    $2, LEND		; if(end = start) goto LEND
+	jr    $30			; goto LOOP
+
+LEND:
